@@ -15,14 +15,14 @@ def welcome(message='Hello player, please insert your name: '):
     print(f'Hi {username} and welcome to the World of Game: The Epic Journey. ')
 
 
-def start_play():
+def start_play() -> int:
     # Game selection section
     print('Please choose a game to play:')
     # gets available games
     available_games = games_service.get_available_games()
     if len(available_games) <= 0:
         print('No games found.')
-        return
+        return 0
 
     # lists the available games in the console
     for index, available_game in enumerate(available_games):
@@ -73,6 +73,9 @@ def start_play():
         game_result = game_to_start.play(user_difficulty_selection)
         if game_result:
             print('You have won!')
+            return user_difficulty_selection
         else:
             print('You have lost.')
+            return 0
+
         
