@@ -17,7 +17,8 @@ def score_server():
         return render_template('/views/error.html', ERROR='Could not find scores file.')
     except ValueError:
         return render_template('/views/error.html', ERROR='Could not cast score to an integer.')
+    except:
+        return render_template('views/error/html', ERROR='Could not load score page.')
 
 
 score_server()
-
