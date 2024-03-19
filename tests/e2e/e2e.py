@@ -8,6 +8,7 @@ def test_scores_service(url: str) -> bool:
     drivers = helpers.get_drivers_for_existing_browsers()
     for driver in drivers:
         try:
+            print(f'Testing driver {driver}')
             driver.get(url)
             element = driver.find_element(By.ID, 'score')
             if element is None:
