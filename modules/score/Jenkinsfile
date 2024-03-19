@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    environment {
+        testResult = 0
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/tomer265/wog'
+            }
+        }
+        stage('Build'){
+            steps {
+                sh '''cd modules/score
+                docker build . -t wogapi:latest'''
+            }
+        }
+        stage('Run'){
+            steps {
+                sh 'docker run -d -p 8777:5000 --name wogapi wogapi:latest'
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'cd ../tests/e2e'
+                script {
+                    testResult = sh(script: 'python e2e.py', returnStdout: true).trim()
+                }
+                echo testResult
+            }
+        }
+    }
+}
