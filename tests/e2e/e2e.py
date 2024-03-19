@@ -1,3 +1,5 @@
+import sys
+
 from selenium.webdriver.common.by import By
 import helpers
 
@@ -25,11 +27,11 @@ def test_scores_service(url: str) -> bool:
     return True
 
 
-def main_function() -> int:
+def main_function():
     if test_scores_service('http://127.0.0.1:8777'):
-        return 0
+        sys.exit(0)
     else:
-        return 1
+        sys.exit(1)
 
 
 main_function()
