@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        testResult = 0
+        exitCode = 0
     }
     stages {
         stage('Checkout') {
@@ -22,10 +22,35 @@ pipeline {
         }
         stage('Test'){
             steps{
-                script {
-                    testResult = sh(script: 'python3 tests/e2e/e2e.py', returnStdout: true).trim()
+                script{
+                    try{
+                        exitCode = sh(script: 'python3 tests/e2e/e2e.py', returnStatus: true)
+                        if (exitCode == 0){
+                            echo "Tests passed successfully!"
+                        }
+                        else{
+                            echo "Tests failed. View console for more details."
+                        }
+                    }
+                    catch (Exception ex){
+                        echo 'error running stage Test: ' + ex.toString()
+                    }
                 }
-                echo testResult
+            }
+        }
+        stage('Finalize'){
+            steps{
+                echo 'stopping docker container "wogapi"'
+                sh 'docker stop wogapi'
+                script {
+                    if (exitCode == 0){
+                        echo 'Pushing container to docker hub...'
+                        sh 'docker push tomer265/score-wogapi:latest'
+                    }
+                    else{
+                        echo 'Test exit code 1 - not pushing to docker hub. Please check the logs.'
+                    }
+                }
             }
         }
     }
