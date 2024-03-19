@@ -1,0 +1,7 @@
+
+services:
+  wogapi:
+    build: .
+    image: tomer265/score-wogapi:latest
+    ports:
+      - "5000:5000"

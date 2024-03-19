@@ -1,4 +1,4 @@
-from modules.score.utils import SCORES_FILE_NAME
+from modules.score.utils import SCORES_FILE_NAME_WRITE_CONTEXT
 from common import try_parse
 
 
@@ -7,7 +7,7 @@ def add_score(difficulty: int) -> None:
     # check if file exists
     try:
         # read current points value from file
-        with open(SCORES_FILE_NAME, 'r') as file:
+        with open(SCORES_FILE_NAME_WRITE_CONTEXT, 'r') as file:
             file_value = file.read()
             if try_parse(file_value):
                 # if the file is valid and can be parsed into an int, assign it to the variable
@@ -31,5 +31,5 @@ def add_score(difficulty: int) -> None:
 
 def write_points_to_file(num_str: str) -> None:
     print(f'inserted is {num_str}')
-    with open(SCORES_FILE_NAME, 'w') as file:
+    with open(SCORES_FILE_NAME_WRITE_CONTEXT, 'w') as file:
         file.write(num_str)
