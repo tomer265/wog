@@ -13,11 +13,12 @@ def test_scores_service(url: str) -> bool:
                 return False
             parsed_value = int(element.text)
             if 0 < parsed_value < 1001:
-                pass
+                print(f'Result {parsed_value} is valid: the value is in range between 1 and 1000.')
+                driver.close()
             else:
-                print('Result value is not in range between 1 and 1000,')
+                print(f'Result {parsed_value} is not valid. The value is not in range between 1 and 1000.')
+                driver.close()
                 return False
-            driver.close()
         except Exception as ex:
             print(f'A fatal error has occurred during the test with driver {driver}: {ex}')
             return False
