@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 import helpers
-from common import try_parse
 
 
 def test_scores_service(url: str) -> bool:
@@ -12,7 +11,7 @@ def test_scores_service(url: str) -> bool:
             if element is None:
                 print('No score element was found on page.')
                 return False
-            parsed_value = try_parse(element.text)
+            parsed_value = int(element.text)
             if 0 < parsed_value < 1001:
                 pass
             else:

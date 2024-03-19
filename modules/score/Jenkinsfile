@@ -22,9 +22,8 @@ pipeline {
         }
         stage('Test'){
             steps{
-                sh 'cd ../tests/e2e'
                 script {
-                    testResult = sh(script: 'python e2e.py', returnStdout: true).trim()
+                    testResult = sh(script: 'python3 tests/e2e/e2e.py', returnStdout: true).trim()
                 }
                 echo testResult
             }
